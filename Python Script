@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+
+def get_usernames_from_html(html_file):
+    with open(html_file, 'r') as file:
+        contents = file.read()
+    
+    soup = BeautifulSoup(contents, 'lxml')
+    usernames = [username.text.strip() for username in soup.select('div a')]
+    return usernames
+
+# edit both file paths here to your file location, do not change connections or beyond! (using raw string syntax)
+followers_file = r'C:\Users\JohnSmith\FileName\connections\followers_and_following\followers_1.html'
+followings_file = r'C:\Users\JohnSmith\FileName\connections\followers_and_following\following.html'
+
+# Retrieve usernames from each HTML file
+followers = get_usernames_from_html(followers_file)
+followings = get_usernames_from_html(followings_file)
+
+# Find users who are in followings but not in followers
+not_following_back = [user for user in followings if user not in followers]
+
+# Output results
+print(not_following_back)
+print(len(not_following_back))
+
+# Add this line to pause the window
+input("Press Enter to exit...")
